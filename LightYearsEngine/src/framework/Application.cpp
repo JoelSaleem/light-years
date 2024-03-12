@@ -1,12 +1,14 @@
 #include "framework/Application.h"
 #include <framework/Core.h>
+#include <framework/World.h>
 
 namespace ly
 {
 
     Application::Application() : mWindow{sf::VideoMode(1024, 1440), "Light Years"},
                                  mTargetFrameRate{60},
-                                 mTickClock{}
+                                 mTickClock{},
+                                 currentWorld{nullptr}
     {
     }
 
@@ -32,6 +34,7 @@ namespace ly
             {
                 accumulatedTime -= targetDeltaTime;
                 TickInternal(targetDeltaTime);
+
                 RenderInternal();
             }
         }
@@ -39,11 +42,16 @@ namespace ly
 
     void Application::Tick(float deltaTime)
     {
-        LOG("ticking at framerate: %f\n", 1.f / deltaTime);
+        if (currentWorld)
+        {
+            currentWorld->BeginPlayInternal();
+            currentWorld->TickInternal(deltaTime);
+        }
     }
 
     void Application::Render()
     {
+
         sf::RectangleShape rect{sf::Vector2f{100, 100}};
         rect.setOrigin(50, 50);
         rect.setFillColor(sf::Color::Green);
@@ -54,6 +62,7 @@ namespace ly
 
     void Application::TickInternal(float deltaTime)
     {
+
         Tick(deltaTime);
     }
 

@@ -1,5 +1,5 @@
 #include "framework/Application.h"
-#include <iostream>
+#include <framework/Core.h>
 
 namespace ly
 {
@@ -39,7 +39,7 @@ namespace ly
 
     void Application::Tick(float deltaTime)
     {
-        // std::cout << "ticking at frame rate " << 1.f / deltaTime << std::endl;
+        LOG("ticking at framerate: %f\n", 1.f / deltaTime);
     }
 
     void Application::Render()

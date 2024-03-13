@@ -1,9 +1,10 @@
 #include <framework/World.h>
 #include <framework/Core.h>
+#include <framework/Actor.h>
 
 namespace ly
 {
-    World::World(Application *owningApp) : mOwningApp(owningApp), mBegunPlay{false}
+    World::World(Application *owningApp) : mOwningApp(owningApp), mBegunPlay{false}, mPendingActors{}, mActors{}
     {
     }
 
@@ -20,6 +21,17 @@ namespace ly
 
     void World::TickInternal(float deltaTime)
     {
+        for (shared<Actor> actor : mPendingActors)
+        {
+            mActors.push_back(actor);
+            actor->BeginPlayInternal();
+        }
+
+        for(shared<Actor> actor: mActors) {
+            actor->Tick(deltaTime);
+        }
+
+        mPendingActors.clear();
         Tick(deltaTime);
     }
 

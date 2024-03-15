@@ -12,7 +12,7 @@ namespace ly
     GameApplication::GameApplication()
     {
         weak<World> newWorld = LoadWorld<World>();
-        newWorld->SpawnActor<Actor>();
+        newWorld.lock()->SpawnActor<Actor>();
     }
 
 }

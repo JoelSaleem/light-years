@@ -11,7 +11,7 @@ namespace ly
     using shared = std::shared_ptr<T>;
 
     template <typename T>
-    using weak = std::shared_ptr<T>;
+    using weak = std::weak_ptr<T>;
 
     template <typename T>
     using List = std::vector<T>;

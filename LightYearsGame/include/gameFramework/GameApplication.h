@@ -9,5 +9,7 @@ namespace ly
     {
     public:
         GameApplication();
+    private:
+        weak<Actor> actorToDestroy;
     };
 }

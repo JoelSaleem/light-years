@@ -19,6 +19,14 @@ namespace ly
         }
     }
 
+    void World::Render(sf::RenderWindow &window)
+    {
+        for (auto &actor : mActors)
+        {
+            actor->Render(window);
+        }
+    }
+
     void World::TickInternal(float deltaTime)
     {
         for (shared<Actor> actor : mPendingActors)
@@ -36,9 +44,11 @@ namespace ly
             }
             else
             {
+                iter->get()->TickInternal(deltaTime);
                 iter++;
             }
         }
+
 
         Tick(deltaTime);
     }

@@ -14,5 +14,4 @@ namespace ly
         weak<World> newWorld = LoadWorld<World>();
         newWorld.lock()->SpawnActor<Actor>();
     }
-
 }

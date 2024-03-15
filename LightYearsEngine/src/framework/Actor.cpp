@@ -4,7 +4,10 @@
 namespace ly
 {
     Actor::Actor(World *owningWorld) : mOwningWorld{owningWorld}, mBegunPlay{false} {}
-    Actor::~Actor() {}
+    Actor::~Actor()
+    {
+        LOG("actor destroyed");
+    }
 
     void Actor::BeginPlayInternal()
     {

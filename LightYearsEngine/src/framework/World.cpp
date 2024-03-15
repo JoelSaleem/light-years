@@ -26,12 +26,20 @@ namespace ly
             mActors.push_back(actor);
             actor->BeginPlayInternal();
         }
+        mPendingActors.clear();
 
-        for(shared<Actor> actor: mActors) {
-            actor->Tick(deltaTime);
+        for (auto iter = mActors.begin(); iter != mActors.end();)
+        {
+            if (iter->get()->IsPendingDestroy())
+            {
+                iter = mActors.erase(iter);
+            }
+            else
+            {
+                iter++;
+            }
         }
 
-        mPendingActors.clear();
         Tick(deltaTime);
     }
 

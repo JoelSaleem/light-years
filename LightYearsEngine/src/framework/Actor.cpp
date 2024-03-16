@@ -1,5 +1,7 @@
 #include "framework/Actor.h"
 #include "framework/Core.h"
+#include "framework/AssetManager.h"
+#include <iostream>
 
 namespace ly
 {
@@ -27,21 +29,24 @@ namespace ly
 
     void Actor::BeginPlay()
     {
-        LOG("actor begun");
     }
 
     void Actor::Tick(float deltaTime)
     {
-        LOG("actor tick");
     }
 
     void Actor::SetTexture(const std::string &texturePath)
     {
-        mTexture.loadFromFile(texturePath);
-        mSprite.setTexture(mTexture);
+        AssetManager &assetManager = AssetManager::Get();
 
-        int textureWidth = mTexture.getSize().x;
-        int textureHeight = mTexture.getSize().y;
+        mTexture = assetManager.LoadTexture(texturePath);
+        if (!mTexture)
+            return;
+
+        mSprite.setTexture(*mTexture);
+
+        int textureWidth = mTexture->getSize().x;
+        int textureHeight = mTexture->getSize().y;
         mSprite.setTextureRect(sf::IntRect{sf::Vector2i{}, sf::Vector2i{
                                                                textureWidth,
                                                                textureHeight,

@@ -26,6 +26,6 @@ namespace ly
         bool mBegunPlay;
 
         sf::Sprite mSprite;
-        sf::Texture mTexture;
+        shared<sf::Texture> mTexture;
     };
 }

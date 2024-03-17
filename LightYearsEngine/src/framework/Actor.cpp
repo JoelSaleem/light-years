@@ -120,4 +120,4 @@ namespace ly
         sf::FloatRect bound = mSprite.getGlobalBounds();
         mSprite.setOrigin(bound.width / 2.f, bound.height/2.f);
     }
-}
+} 

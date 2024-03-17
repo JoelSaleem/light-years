@@ -4,6 +4,7 @@
 #include "spaceship/Spaceship.h"
 #include "config.h"
 #include <SFML/Graphics.hpp>
+#include "framework/AssetManager.h"
 
 ly::Application *GetApplication()
 {
@@ -14,13 +15,13 @@ namespace ly
 {
     GameApplication::GameApplication() : Application{600, 980, "Light Years", sf::Style::Titlebar | sf::Style::Close}
     {
+        AssetManager::Get().SetAssetRootDir(GetResourceDir());
+
         weak<World> newWorld = LoadWorld<World>();
         newWorld.lock()->SpawnActor<Actor>();
 
-        testPlayerSpaceship = newWorld.lock()->SpawnActor<Spaceship>();
+        testPlayerSpaceship = newWorld.lock()->SpawnActor<PlayerSpaceship>();
         testPlayerSpaceship.lock().get()->SetActorLocation(sf::Vector2f{300, 490});
         testPlayerSpaceship.lock().get()->SetActorRotation(-48.f);
-        testPlayerSpaceship.lock().get()->SetTexture(GetResourceDir() + "SpaceShooterRedux/PNG/playerShip1_blue.png");
-        testPlayerSpaceship.lock().get()->SetVelocity(sf::Vector2f{10.f, 10.f});
     }
 }

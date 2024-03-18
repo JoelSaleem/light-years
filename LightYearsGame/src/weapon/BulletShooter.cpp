@@ -1,6 +1,9 @@
 #include "weapon/BulletShooter.h"
 #include "framework/Actor.h"
 #include "framework/Core.h"
+#include "framework/Core.h"
+#include "weapon/Bullet.h"
+#include "framework/World.h"
 
 namespace ly
 {
@@ -21,8 +24,11 @@ namespace ly
         return true;
     }
 
-    void BulletShooter::ShootImpl() {
+    void BulletShooter::ShootImpl()
+    {
         mCooldownClock.restart();
-        LOG("shoot impl");
+        weak<Bullet> newBullet = GetOwner()->GetWorld()->SpawnActor<Bullet>(GetOwner(), "SpaceShooterRedux/PNG/Lasers/laserBlue01.png");
+        newBullet.lock()->SetActorLocation(GetOwner()->GetActorLocation());
+        newBullet.lock()->SetActorRotation(GetOwner()->GetActorRotation());
     }
 }

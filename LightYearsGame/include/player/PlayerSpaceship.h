@@ -1,15 +1,18 @@
 #pragma once
 #include "spaceship/Spaceship.h"
+#include "weapon/BulletShooter.h"
 
 namespace ly
 {
+    class BulletShooter;
     class PlayerSpaceship : public Spaceship
     {
     public:
         PlayerSpaceship(World *owningWorld, const std::string &texturePath = "SpaceShooterRedux/PNG/playerShip1_blue.png");
         virtual void Tick(float deltaTime) override;
         void SetSpeed(float speed) { mSpeed = speed; };
-        float GetSpeech() { return mSpeed; }
+        float GetSpeed() { return mSpeed; }
+        virtual void Shoot() override;
 
     private:
         void HandleInput();
@@ -18,5 +21,7 @@ namespace ly
         void ConsumeInput(float deltaTime);
         sf::Vector2f mMoveInput;
         float mSpeed;
+
+        unique<BulletShooter> mShooter;
     };
 }

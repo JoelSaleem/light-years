@@ -2,6 +2,7 @@
 #include "framework/Core.h"
 #include "framework/AssetManager.h"
 #include "framework/MathUtility.h"
+#include "framework/World.h"
 
 namespace ly
 {
@@ -119,5 +120,9 @@ namespace ly
     {
         sf::FloatRect bound = mSprite.getGlobalBounds();
         mSprite.setOrigin(bound.width / 2.f, bound.height/2.f);
+    }
+
+    sf::Vector2u Actor::GetWindowSize() const {
+        return mOwningWorld->GetWindowSize();
     }
 } 

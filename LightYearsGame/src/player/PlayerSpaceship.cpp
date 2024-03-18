@@ -41,6 +41,7 @@ namespace ly
             mMoveInput.x = -1.f;
         }
 
+        ClampInputOnEdge();
         NormalizeInput();
     }
 
@@ -53,6 +54,28 @@ namespace ly
     void PlayerSpaceship::NormalizeInput()
     {
         Normalize(mMoveInput);
-        LOG("move input is now: %f, %f", mMoveInput.x, mMoveInput.y);
+    }
+
+    void PlayerSpaceship::ClampInputOnEdge()
+    {
+        sf::Vector2u maxBounds = Actor::GetWindowSize();
+        sf::Vector2f actorLocation = Actor::GetActorLocation();
+        if (actorLocation.x < 0 && mMoveInput.x == -1.f)
+        {
+            mMoveInput.x = 0;
+        }
+        if (actorLocation.x > maxBounds.x && mMoveInput.x == 1.f)
+        {
+            mMoveInput.x = 0;
+        }
+
+        if (actorLocation.y < 0 && mMoveInput.y == -1.f)
+        {
+            mMoveInput.y = 0;
+        }
+        if (actorLocation.y > maxBounds.y && mMoveInput.y == 1.f)
+        {
+            mMoveInput.y = 0;
+        }
     }
 }

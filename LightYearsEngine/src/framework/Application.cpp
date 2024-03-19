@@ -72,9 +72,15 @@ namespace ly
             currentWorld->TickInternal(deltaTime);
         }
 
-        if (mCleanCycleClock.getElapsedTime().asSeconds() >= mCleanCycleInterval) {
+        if (mCleanCycleClock.getElapsedTime().asSeconds() >= mCleanCycleInterval)
+        {
             mCleanCycleClock.restart();
             AssetManager::Get().CleanCycle();
+
+            if (currentWorld)
+            {
+                currentWorld->CleanCycle();
+            }
         }
     }
 
@@ -87,7 +93,8 @@ namespace ly
         mWindow.display();
     }
 
-    sf::Vector2u Application::GetWindowSize() const {
+    sf::Vector2u Application::GetWindowSize() const
+    {
         return mWindow.getSize();
     }
 }

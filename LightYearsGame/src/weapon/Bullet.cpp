@@ -15,8 +15,11 @@ namespace ly
     void Bullet::Tick(float deltaTime)
     {
         Actor::Tick(deltaTime);
-
         Move(deltaTime);
+
+        if (IsActorOutOfWindowBounds()) {
+            Destroy();
+        }
     }
 
     void Bullet::Move(float deltaTime)

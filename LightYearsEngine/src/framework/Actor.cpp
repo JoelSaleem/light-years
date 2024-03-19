@@ -119,10 +119,37 @@ namespace ly
     void Actor::CenterPivot()
     {
         sf::FloatRect bound = mSprite.getGlobalBounds();
-        mSprite.setOrigin(bound.width / 2.f, bound.height/2.f);
+        mSprite.setOrigin(bound.width / 2.f, bound.height / 2.f);
     }
 
-    sf::Vector2u Actor::GetWindowSize() const {
+    sf::Vector2u Actor::GetWindowSize() const
+    {
         return mOwningWorld->GetWindowSize();
     }
-} 
+
+    bool Actor::IsActorOutOfWindowBounds() const
+    {
+        sf::Vector2f actorPos = GetActorLocation();
+        sf::Vector2u windowSize = GetWindowSize();
+
+        float width = GetActorGlobalBounds().width;
+        float height = GetActorGlobalBounds().height;
+
+        if (actorPos.x < -width || actorPos.x > windowSize.x + width)
+        {
+            return true;
+        }
+        
+        if (actorPos.y < -height || actorPos.y > windowSize.y + height)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    sf::FloatRect Actor::GetActorGlobalBounds() const
+    {
+        return mSprite.getGlobalBounds();
+    }
+}

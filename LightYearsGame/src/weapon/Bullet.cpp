@@ -17,7 +17,8 @@ namespace ly
         Actor::Tick(deltaTime);
         Move(deltaTime);
 
-        if (IsActorOutOfWindowBounds()) {
+        if (IsActorOutOfWindowBounds())
+        {
             Destroy();
         }
     }
@@ -25,5 +26,11 @@ namespace ly
     void Bullet::Move(float deltaTime)
     {
         AddActorLocationOffset(GetActorForwardDirection() * mSpeed * deltaTime);
+    }
+
+    void Bullet::BeginPlay()
+    {
+        Actor::BeginPlay();
+        SetEnablePhysics(true);
     }
 }

@@ -1,3 +1,4 @@
+#include <box2d/b2_body.h>
 #include <framework/World.h>
 #include <framework/Core.h>
 #include <framework/Actor.h>

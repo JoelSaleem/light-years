@@ -16,6 +16,7 @@ namespace ly
         void SetDamage(float newDamage);
 
         virtual void Tick(float deltaTime) override;
+        virtual void BeginPlay();
 
     private:
         void Move(float deltaTime);

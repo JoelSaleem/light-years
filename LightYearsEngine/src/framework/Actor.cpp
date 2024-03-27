@@ -185,6 +185,7 @@ namespace ly
         if (mPhysicsBody)
         {
             PhysicsSystem::Get().RemoveListener(mPhysicsBody);
+            mPhysicsBody = nullptr;
         }
     }
 
@@ -201,11 +202,19 @@ namespace ly
         }
     }
 
-    void Actor::OnActorBeginOverlap(Actor* other){
+    void Actor::Destroy()
+    {
+        UninitializePhysics();
+        Object::Destroy();
+    }
+
+    void Actor::OnActorBeginOverlap(Actor *other)
+    {
         LOG("overlapped");
     }
 
-    void Actor::OnActorEndOverlap(Actor* other){
+    void Actor::OnActorEndOverlap(Actor *other)
+    {
         LOG("end overlap");
     }
 }

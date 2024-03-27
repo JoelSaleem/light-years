@@ -25,7 +25,8 @@ namespace ly
                                      mPhysicsScale{0.01f},
                                      mVelocityIterations{8},
                                      mPositionIterations{8},
-                                     mContactListener{}
+                                     mContactListener{},
+                                     mPendingRemoveListeners{}
     {
         mPhysicsWorld.SetContactListener(&mContactListener);
         mPhysicsWorld.SetAllowSleeping(false);
@@ -33,6 +34,7 @@ namespace ly
 
     void PhysicsSystem::Step(float deltaTime)
     {
+        ProcessPendingRemoveListeners();
         mPhysicsWorld.Step(deltaTime, mVelocityIterations, mPositionIterations);
     }
 
@@ -68,7 +70,25 @@ namespace ly
         return body;
     }
 
-    void PhysicsSystem::RemoveListener(b2Body *bodyToRemove) {}
+    void PhysicsSystem::Cleanup()
+    {
+        physicsSystem = std::move(unique<PhysicsSystem>{new PhysicsSystem});
+    }
+
+    void PhysicsSystem::RemoveListener(b2Body *bodyToRemove)
+    {
+        mPendingRemoveListeners.insert(bodyToRemove);
+    }
+
+    void PhysicsSystem::ProcessPendingRemoveListeners()
+    {
+        for (auto listener : mPendingRemoveListeners)
+        {
+            mPhysicsWorld.DestroyBody(listener);
+        }
+
+        mPendingRemoveListeners.clear();
+    }
 
     void PhysicsContactListener::BeginContact(b2Contact *contact)
     {

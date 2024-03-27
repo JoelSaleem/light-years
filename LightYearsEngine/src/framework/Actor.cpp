@@ -200,4 +200,12 @@ namespace ly
             mPhysicsBody->SetTransform(pos, rotation);
         }
     }
+
+    void Actor::OnActorBeginOverlap(Actor* other){
+        LOG("overlapped");
+    }
+
+    void Actor::OnActorEndOverlap(Actor* other){
+        LOG("end overlap");
+    }
 }

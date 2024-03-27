@@ -3,6 +3,7 @@
 #include <box2d/b2_body.h>
 #include <box2d/b2_polygon_shape.h>
 #include <box2d/b2_fixture.h>
+#include <box2d/b2_contact.h>
 #include "framework/MathUtility.h"
 
 namespace ly
@@ -71,11 +72,43 @@ namespace ly
 
     void PhysicsContactListener::BeginContact(b2Contact *contact)
     {
-        LOG("begin contact");
+        Actor *actorA = reinterpret_cast<Actor *>(contact->GetFixtureA()->GetBody()->GetUserData().pointer);
+        Actor *actorB = reinterpret_cast<Actor *>(contact->GetFixtureB()->GetBody()->GetUserData().pointer);
+
+        if (actorA && !actorA->IsPendingDestroy())
+        {
+            actorA->OnActorBeginOverlap(actorB);
+        }
+
+        if (actorB && !actorB->IsPendingDestroy())
+        {
+            actorB->OnActorBeginOverlap(actorA);
+        }
     }
 
     void PhysicsContactListener::EndContact(b2Contact *contact)
     {
-        LOG("end contact");
+        Actor *actorA = nullptr;
+        Actor *actorB = nullptr;
+
+        if (contact->GetFixtureA() && contact->GetFixtureA()->GetBody())
+        {
+            actorA = reinterpret_cast<Actor *>(contact->GetFixtureA()->GetBody()->GetUserData().pointer);
+        }
+
+        if (contact->GetFixtureB() && contact->GetFixtureB()->GetBody())
+        {
+            actorB = reinterpret_cast<Actor *>(contact->GetFixtureB()->GetBody()->GetUserData().pointer);
+        }
+
+        if (actorA && !actorA->IsPendingDestroy())
+        {
+            actorA->OnActorEndOverlap(actorB);
+        }
+
+        if (actorB && !actorB->IsPendingDestroy())
+        {
+            actorB->OnActorEndOverlap(actorA);
+        }
     }
 }

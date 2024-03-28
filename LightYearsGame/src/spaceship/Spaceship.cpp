@@ -1,4 +1,5 @@
 #include "spaceship/Spaceship.h"
+#include <functional>
 
 namespace ly
 {
@@ -30,8 +31,16 @@ namespace ly
     {
     }
 
-    void Spaceship::BeginPlay() {
+    void Spaceship::BeginPlay()
+    {
         Actor::BeginPlay();
         SetEnablePhysics(true);
+          
+
+        std::function<void(float)> func = [](float var)
+        {
+            LOG("the value of var is: %f", var);
+        };
+        func(12);
     }
 }

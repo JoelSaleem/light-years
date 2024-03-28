@@ -35,10 +35,10 @@ namespace ly
         counter += deltaTime;
         if (counter > 10.f)
         {
-            if (!testPlayerSpaceship.expired())
-            {
-                testPlayerSpaceship.lock()->Destroy();
-            }
+            // if (!testPlayerSpaceship.expired())
+            // {
+            //     testPlayerSpaceship.lock()->Destroy();
+            // }
         }
     }
 }

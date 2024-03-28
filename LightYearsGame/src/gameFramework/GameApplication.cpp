@@ -37,7 +37,7 @@ namespace ly
         {
             if (!testPlayerSpaceship.expired())
             {
-                testPlayerSpaceship.lock()->Destroy(); 
+                testPlayerSpaceship.lock()->Destroy();
             }
         }
     }

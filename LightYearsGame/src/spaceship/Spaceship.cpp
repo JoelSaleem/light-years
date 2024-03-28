@@ -31,16 +31,17 @@ namespace ly
     {
     }
 
+    void Spaceship::OnHealthChanged(float amt, float health, float maxHealth)
+    {
+        LOG("Health changed by: %f and is now: %f", amt, health, maxHealth);
+    }
+
     void Spaceship::BeginPlay()
     {
         Actor::BeginPlay();
         SetEnablePhysics(true);
-          
 
-        std::function<void(float)> func = [](float var)
-        {
-            LOG("the value of var is: %f", var);
-        };
-        func(12);
+        mHealthComp.onHealthChanged.BindAction(GetWeakRef(), &Spaceship::OnHealthChanged);
+        mHealthComp.onHealthChanged.Broadcast(11, 18, 100);
     }
 }

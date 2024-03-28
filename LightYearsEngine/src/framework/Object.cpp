@@ -11,7 +11,17 @@ namespace ly
 
     void Object::Destroy()
     {
+        onDestroy.Broadcast(this);
         mIsPendingDestroy = true;
     }
 
+    weak<Object> Object::GetWeakRef()
+    {
+        return shared_from_this();
+    }
+    
+    weak<const Object> Object::GetWeakRef() const
+    {
+        return shared_from_this();
+    }
 }

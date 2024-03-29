@@ -38,4 +38,6 @@ namespace ly
     sf::Color LerpColor(const sf::Color &a, const sf::Color &b, float alpha);
     float LerpFloat(float a, float b, float alpha);
 
+    float RandomRange(float min, float max);
+    sf::Vector2f RandomUnitVector();
 }

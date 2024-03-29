@@ -3,6 +3,8 @@
 #include "framework/MathUtility.h"
 #include <SFML/System.hpp>
 
+const uint PLAYER_TEAM_ID = 1;
+
 namespace ly
 {
     PlayerSpaceship::PlayerSpaceship(World *owningWorld, const std::string &texturePath)
@@ -11,6 +13,7 @@ namespace ly
           mSpeed{100.f},
           mShooter{new BulletShooter{this}}
     {
+        SetTeamID(PLAYER_TEAM_ID);
     }
 
     void PlayerSpaceship::Tick(float deltaTime)
@@ -46,7 +49,8 @@ namespace ly
         ClampInputOnEdge();
         NormalizeInput();
 
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+        {
             Shoot();
         }
     }

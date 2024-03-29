@@ -7,7 +7,10 @@ namespace ly
         const std::string &texturePath,
         float speed, float damage) : Actor{world, texturePath},
                                      mOwner{owner},
-                                     mSpeed{speed}, mDamage{damage} {};
+                                     mSpeed{speed}, mDamage{damage}
+    {
+        SetTeamID(owner->GetTeamID());
+    };
 
     void Bullet::SetSpeed(float newSpeed) {}
     void Bullet::SetDamage(float newDamage) {}
@@ -29,8 +32,17 @@ namespace ly
     }
 
     void Bullet::BeginPlay()
-    {
+    { 
         Actor::BeginPlay();
         SetEnablePhysics(true);
     }
+
+    void Bullet::OnActorBeginOverlap(Actor *other)
+    {
+        if (IsOtherHostile(other))
+        {
+             other->ApplyDamage(GetDamage()); 
+             Destroy(); 
+        }
+    };
 }

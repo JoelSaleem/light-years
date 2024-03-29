@@ -13,7 +13,8 @@ namespace ly
                                                                        mSprite{},
                                                                        mTexture{},
                                                                        mPhysicsBody{nullptr},
-                                                                       mPhysicsEnabled{false}
+                                                                       mPhysicsEnabled{false},
+                                                                       mTeamID{GetNeutralTeamID()}
     {
         SetTexture(texturePath);
     }
@@ -210,11 +211,24 @@ namespace ly
 
     void Actor::OnActorBeginOverlap(Actor *other)
     {
-        LOG("overlapped");
     }
 
     void Actor::OnActorEndOverlap(Actor *other)
     {
-        LOG("end overlap");
+    }
+
+    bool Actor::IsOtherHostile(Actor *other) const
+    {
+        if (GetTeamID() == GetNeutralTeamID() ||
+            other->GetTeamID() == GetNeutralTeamID())
+        {
+            return false;
+        }
+
+        return GetTeamID() != other->GetTeamID();
+    }
+
+    void Actor::ApplyDamage(float damage)
+    {
     }
 }

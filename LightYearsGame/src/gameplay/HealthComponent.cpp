@@ -42,22 +42,19 @@ namespace ly
         }
         else
         {
-            HealthRegen(amt);
+            LOG("Regen todo!");
         }
+
+        onHealthChanged.Broadcast(amt, mHealth, mMaxHealth);
     }
 
     void HealthComponent::TakenDamage(float amt)
     {
-        LOG("TOOK damage: %f, now health is %f/%f", amt, mHealth, mMaxHealth);
-    }
-
-    void HealthComponent::HealthRegen(float amt)
-    {
-        LOG("REGEN: %f, now health is %f/%f", amt, mHealth, mMaxHealth);
+        onTakenDamage.Broadcast(amt, mHealth, mMaxHealth);
     }
 
     void HealthComponent::HealthEmpty()
     {
-        LOG("deAD");
+        onHealthEmpty.Broadcast();
     }
 }

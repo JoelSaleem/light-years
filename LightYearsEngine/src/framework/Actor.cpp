@@ -134,7 +134,7 @@ namespace ly
         return mOwningWorld->GetWindowSize();
     }
 
-    bool Actor::IsActorOutOfWindowBounds() const
+    bool Actor::IsActorOutOfWindowBounds(float allowance) const
     {
         sf::Vector2f actorPos = GetActorLocation();
         sf::Vector2u windowSize = GetWindowSize();
@@ -142,12 +142,12 @@ namespace ly
         float width = GetActorGlobalBounds().width;
         float height = GetActorGlobalBounds().height;
 
-        if (actorPos.x < -width || actorPos.x > windowSize.x + width)
+        if (actorPos.x < -width - allowance || actorPos.x > windowSize.x + width + allowance)
         {
             return true;
         }
 
-        if (actorPos.y < -height || actorPos.y > windowSize.y + height)
+        if (actorPos.y < -height - allowance || actorPos.y > windowSize.y + height + allowance)
         {
             return true;
         }
@@ -219,6 +219,11 @@ namespace ly
 
     bool Actor::IsOtherHostile(Actor *other) const
     {
+        if (other == nullptr)
+        {
+            return false;
+        }
+
         if (GetTeamID() == GetNeutralTeamID() ||
             other->GetTeamID() == GetNeutralTeamID())
         {

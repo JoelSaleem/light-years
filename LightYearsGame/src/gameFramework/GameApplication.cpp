@@ -1,10 +1,12 @@
+#include <SFML/Graphics.hpp>
+#include "config.h"
 #include "gameFramework/GameApplication.h"
 #include "framework/World.h"
 #include "framework/Actor.h"
 #include "spaceship/Spaceship.h"
-#include "config.h"
-#include <SFML/Graphics.hpp>
 #include "framework/AssetManager.h"
+#include "Enemy/Vanguard.h"
+
 
 ly::Application *GetApplication()
 {
@@ -24,10 +26,8 @@ namespace ly
         testPlayerSpaceship.lock().get()->SetActorLocation(sf::Vector2f{300, 490});
         testPlayerSpaceship.lock().get()->SetActorRotation(-90.f);
 
-        weak<Spaceship> testSpaceship = newWorld.lock()->SpawnActor<Spaceship>();
-        testSpaceship.lock()->SetTexture("SpaceShooterRedux/PNG/playerShip1_blue.png");
+        weak<Vanguard> testSpaceship = newWorld.lock()->SpawnActor<Vanguard>();
         testSpaceship.lock().get()->SetActorLocation(sf::Vector2f{100, 50});
-        testSpaceship.lock().get()->SetTeamID(2);
         counter = 0.f;
     }
 

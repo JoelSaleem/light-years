@@ -36,8 +36,7 @@ namespace ly
         }
     }
 
-    void
-    Spaceship::Tick(float deltaTime)
+    void Spaceship::Tick(float deltaTime)
     {
         Actor::Tick(deltaTime);
         AddActorLocationOffset(GetVelocity() * deltaTime);

@@ -11,6 +11,8 @@ namespace ly
     
     private:
         weak<PlayerSpaceship> testPlayerSpaceship;
-
+        virtual void BeginPlay() override;
+        // virtual void Tick(float deltaTime);
+        void TimerCallback_Test();
     };
 }

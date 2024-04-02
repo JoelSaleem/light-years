@@ -1,5 +1,6 @@
 #pragma once
 #include "framework/World.h"
+#include "framework/TimerManager.h"
 
 namespace ly
 {
@@ -14,5 +15,6 @@ namespace ly
         virtual void BeginPlay() override;
         // virtual void Tick(float deltaTime);
         void TimerCallback_Test();
+        TimerHandle timerHandle_Test;
     };
 }

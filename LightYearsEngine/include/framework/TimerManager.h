@@ -5,6 +5,32 @@
 
 namespace ly
 {
+    struct TimerHandle
+    {
+    public:
+        TimerHandle();
+        unsigned int GetTimerKey() const { return mTimerKey; }
+
+    private:
+        unsigned int mTimerKey;
+        static unsigned int timerKeyCounter;
+        static unsigned int GetNextTimerKey()
+        {
+            return ++timerKeyCounter;
+        };
+    };
+
+    struct TimerHandleHashFunc
+    {
+    public:
+        std::size_t operator()(const TimerHandle &timerHandle) const
+        {
+            return timerHandle.GetTimerKey();
+        }
+    };
+
+    bool operator==(const TimerHandle &lhs, const TimerHandle rhs);
+
     struct Timer
     {
     public:
@@ -27,13 +53,20 @@ namespace ly
         static TimerManager &Get();
 
         template <typename ClassName>
-        void SetTimer(weak<Object> weakRef, void (ClassName::*callback)(), float duration, bool repeat = false)
+        TimerHandle SetTimer(weak<Object> weakRef, void (ClassName::*callback)(), float duration, bool repeat = false)
         {
-            mTimers.push_back(Timer(
-                weakRef, [=]
-                { (static_cast<ClassName *>(weakRef.lock().get())->*callback)(); },
-                duration, repeat));
+            TimerHandle newHandle{};
+
+            mTimers.insert({newHandle,
+                            Timer(
+                                weakRef, [=]
+                                { (static_cast<ClassName *>(weakRef.lock().get())->*callback)(); },
+                                duration, repeat)});
+
+            return newHandle;
         }
+
+        void ClearTimer(TimerHandle timerHandle);
 
         void UpdateTimers(float deltaTime);
 
@@ -42,6 +75,6 @@ namespace ly
 
     private:
         static unique<TimerManager> timerManager;
-        List<Timer> mTimers;
+        std::unordered_map<TimerHandle, Timer, TimerHandleHashFunc> mTimers;
     };
 }

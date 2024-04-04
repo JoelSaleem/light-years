@@ -4,6 +4,7 @@
 #include "Enemy/Vanguard.h"
 #include "player/PlayerSpaceship.h"
 #include "Enemy/VanguardStage.h"
+#include "Enemy/TwinBladeStage.h"
 
 namespace ly
 {
@@ -21,6 +22,7 @@ namespace ly
 
     void GameLevelOne::InitGameStages()
     {
+        AddStage(shared<TwinBladeStage>{new TwinBladeStage{this}});
         AddStage(shared<VanguardStage>{new VanguardStage{this}});
     }
 }

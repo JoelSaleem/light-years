@@ -13,7 +13,6 @@ namespace ly
 
     void GameStage::TickStage(float deltaTime)
     {
-        LOG("tick stage");
     }
 
     void GameStage::FinishStage()

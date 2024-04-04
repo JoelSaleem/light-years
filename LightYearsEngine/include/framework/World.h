@@ -46,7 +46,7 @@ namespace ly
     };
 
     template <typename ActorType, typename... Args>
-    inline weak<ActorType> World::SpawnActor(Args... args)
+    weak<ActorType> World::SpawnActor(Args... args)
     {
         shared<ActorType> newActor(new ActorType{this, args...});
         mPendingActors.push_back(newActor);

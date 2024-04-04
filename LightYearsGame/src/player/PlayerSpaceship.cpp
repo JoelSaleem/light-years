@@ -11,7 +11,7 @@ namespace ly
         : Spaceship{owningWorld, texturePath},
           mMoveInput{0.f, 0.f},
           mSpeed{100.f},
-          mShooter{new BulletShooter{this, 0.01f}}
+          mShooter{new BulletShooter{this, 0.01f, {50.f, 0.f}}}
     {
         SetTeamID(PLAYER_TEAM_ID);
     }

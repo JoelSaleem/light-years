@@ -16,5 +16,7 @@ namespace ly
         // virtual void Tick(float deltaTime);
         void TimerCallback_Test();
         TimerHandle timerHandle_Test;
+
+        virtual void InitGameStages() override;
     };
 }

@@ -3,6 +3,7 @@
 #include "framework/TimerManager.h"
 #include "Enemy/Vanguard.h"
 #include "player/PlayerSpaceship.h"
+#include "gameplay/GameStage.h"
 
 namespace ly
 {
@@ -26,5 +27,10 @@ namespace ly
     {
         LOG("callback called");
         TimerManager::Get().ClearTimer(timerHandle_Test);
+    }
+
+    void GameLevelOne::InitGameStages()
+    {
+        AddStage(shared<GameStage>{new GameStage{this}});
     }
 }

@@ -3,10 +3,14 @@
 #include <framework/Core.h>
 #include <framework/Actor.h>
 #include "framework/Application.h"
+#include "gameplay/GameStage.h"
 
 namespace ly
 {
-    World::World(Application *owningApp) : mOwningApp(owningApp), mBegunPlay{false}, mPendingActors{}, mActors{}
+    World::World(Application *owningApp)
+        : mOwningApp(owningApp), mBegunPlay{false},
+          mPendingActors{}, mActors{}, mGameStages{},
+          mCurrentStageIndex{-1}
     {
     }
 
@@ -18,6 +22,8 @@ namespace ly
         {
             mBegunPlay = true;
             BeginPlay();
+            InitGameStages();
+            NextGameStage();
         }
     }
 
@@ -45,6 +51,11 @@ namespace ly
             iter++;
         }
 
+        if (mCurrentStageIndex >= 0 && mCurrentStageIndex < mGameStages.size())
+        {
+            mGameStages[mCurrentStageIndex]->TickStage(deltaTime);
+        }
+
         Tick(deltaTime);
     }
 
@@ -55,6 +66,25 @@ namespace ly
     void World::Tick(float deltaTime)
     {
         // LOG("tick at frame rate: %f", 1.f / deltaTime);
+    }
+
+    void World::InitGameStages() {}
+
+    void World::AllGameStagesFinished() {}
+
+    void World::NextGameStage()
+    {
+        ++mCurrentStageIndex;
+        if (mCurrentStageIndex >= 0 && mCurrentStageIndex < mGameStages.size())
+        {
+            shared<GameStage> nextGameStage = mGameStages[mCurrentStageIndex];
+            nextGameStage->onStageFinished.BindAction(GetWeakRef(), &World::NextGameStage);
+            nextGameStage->StartStage();
+        }
+        else
+        {
+            AllGameStagesFinished();
+        }
     }
 
     sf::Vector2u World::GetWindowSize() const
@@ -75,5 +105,22 @@ namespace ly
                 iter++;
             }
         }
+
+        for (auto iter = mGameStages.begin(); iter != mGameStages.end();)
+        {
+            if (iter->get()->IsStageFinished())
+            {
+                iter = mGameStages.erase(iter);
+            }
+            else
+            {
+                iter++;
+            }
+        }
+    }
+
+    void World::AddStage(const shared<GameStage> stage)
+    {
+        mGameStages.push_back(stage);
     }
 }

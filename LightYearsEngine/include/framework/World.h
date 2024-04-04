@@ -1,4 +1,5 @@
 #pragma once
+
 #include "framework/Core.h"
 #include "framework/Object.h"
 #include <SFML/Graphics.hpp>
@@ -7,7 +8,8 @@ namespace ly
 {
     class Application;
     class Actor;
-    class World: public Object
+    class GameStage;
+    class World : public Object
     {
     public:
         World(Application *owningApp);
@@ -24,15 +26,23 @@ namespace ly
         sf::Vector2u GetWindowSize() const;
         void CleanCycle();
 
+        void AddStage(const shared<GameStage> stage);
 
     private:
-        virtual void BeginPlay();
+        virtual void
+        BeginPlay();
         virtual void Tick(float deltaTime);
         Application *mOwningApp;
         bool mBegunPlay;
 
         List<shared<Actor>> mActors;
         List<shared<Actor>> mPendingActors;
+
+        List<shared<GameStage>> mGameStages;
+        int mCurrentStageIndex;
+        virtual void InitGameStages();
+        void NextGameStage();
+        virtual void AllGameStagesFinished();
     };
 
     template <typename ActorType, typename... Args>

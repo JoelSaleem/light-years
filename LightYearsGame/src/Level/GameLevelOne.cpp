@@ -24,11 +24,12 @@ namespace ly
 
     void GameLevelOne::InitGameStages()
     {
-        AddStage(shared<HexagonStage>{new HexagonStage{this}});
         AddStage(shared<WaitStage>{new WaitStage{this, 5.f}});
         AddStage(shared<VanguardStage>{new VanguardStage{this}});
+        
         AddStage(shared<WaitStage>{new WaitStage{this, 10.f}});
         AddStage(shared<TwinBladeStage>{new TwinBladeStage{this}});
+        
         AddStage(shared<WaitStage>{new WaitStage{this, 5.f}});
         AddStage(shared<HexagonStage>{new HexagonStage{this}});
     }

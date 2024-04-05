@@ -9,8 +9,7 @@ namespace ly
 {
     World::World(Application *owningApp)
         : mOwningApp(owningApp), mBegunPlay{false},
-          mPendingActors{}, mActors{}, mGameStages{},
-          mCurrentStageIndex{-1}
+          mPendingActors{}, mActors{}, mGameStages{}
     {
     }
 
@@ -23,7 +22,7 @@ namespace ly
             mBegunPlay = true;
             BeginPlay();
             InitGameStages();
-            NextGameStage();
+            StartStages();
         }
     }
 
@@ -51,9 +50,9 @@ namespace ly
             iter++;
         }
 
-        if (mCurrentStageIndex >= 0 && mCurrentStageIndex < mGameStages.size())
+        if (mCurrentStage != mGameStages.end())
         {
-            mGameStages[mCurrentStageIndex]->TickStage(deltaTime);
+            mCurrentStage->get()->TickStage(deltaTime);
         }
 
         Tick(deltaTime);
@@ -70,20 +69,34 @@ namespace ly
 
     void World::InitGameStages() {}
 
-    void World::AllGameStagesFinished() {}
+    void World::AllGameStagesFinished()
+    {
+        LOG("all stages finished");
+    }
 
     void World::NextGameStage()
     {
-        ++mCurrentStageIndex;
-        if (mCurrentStageIndex >= 0 && mCurrentStageIndex < mGameStages.size())
+        mCurrentStage = mGameStages.erase(mCurrentStage);
+        if (mCurrentStage != mGameStages.end())
         {
-            shared<GameStage> nextGameStage = mGameStages[mCurrentStageIndex];
-            nextGameStage->onStageFinished.BindAction(GetWeakRef(), &World::NextGameStage);
-            nextGameStage->StartStage();
+            mCurrentStage->get()->StartStage();
+            mCurrentStage->get()->onStageFinished.BindAction(GetWeakRef(), &World::NextGameStage);
         }
         else
         {
             AllGameStagesFinished();
+        }
+    }
+
+    void World::StartStages()
+    {
+        mCurrentStage = mGameStages.begin();
+        if (mCurrentStage != mGameStages.end())
+        {
+            mCurrentStage->get()->StartStage();
+            mCurrentStage->get()->onStageFinished.BindAction(
+                GetWeakRef(),
+                &World::NextGameStage);
         }
     }
 
@@ -105,22 +118,11 @@ namespace ly
                 iter++;
             }
         }
-
-        for (auto iter = mGameStages.begin(); iter != mGameStages.end();)
-        {
-            if (iter->get()->IsStageFinished())
-            {
-                iter = mGameStages.erase(iter);
-            }
-            else
-            {
-                iter++;
-            }
-        }
     }
 
     void World::AddStage(const shared<GameStage> stage)
     {
         mGameStages.push_back(stage);
     }
+
 }

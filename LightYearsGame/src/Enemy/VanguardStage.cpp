@@ -1,7 +1,6 @@
 #include "framework/World.h"
 #include "Enemy/VanguardStage.h"
 #include "Enemy/Vanguard.h"
-#include "Enemy/UFO.h"
 
 namespace ly
 {

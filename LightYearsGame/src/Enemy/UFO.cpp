@@ -3,8 +3,8 @@
 
 namespace ly
 {
-    UFO::UFO(World *owningWorld, const std::string &texturePath,
-             const sf::Vector2f &velocity,
+    UFO::UFO(World *owningWorld, const sf::Vector2f &velocity,
+             const std::string &texturePath,
              float rotationSpeed)
         : EnemySpaceship{owningWorld, texturePath},
           mShooter1{new BulletShooter{this, 1.f, {0, 0}, -60}},

@@ -7,9 +7,7 @@ namespace ly
     class UFO : public EnemySpaceship
     {
     public:
-        UFO(World *owningWorld, const std::string &texturePath = "SpaceShooterRedux/PNG/ufoRed.png",
-            const sf::Vector2f &velocity = {0, 150.f},
-            float rotationSpeed = 40);
+        UFO(World *owningWorld, const sf::Vector2f &velocity, const std::string &texturePath = "SpaceShooterRedux/PNG/ufoRed.png", float rotationSpeed = 40);
         virtual void Tick(float deltaTime) override;
 
     private:

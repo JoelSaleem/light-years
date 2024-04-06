@@ -1,4 +1,5 @@
 #include "weapon/BulletShooter.h"
+#include "weapon/ThreeWayShooter.h"
 #include "player/PlayerSpaceship.h"
 #include "framework/MathUtility.h"
 #include <SFML/System.hpp>
@@ -11,7 +12,7 @@ namespace ly
         : Spaceship{owningWorld, texturePath},
           mMoveInput{0.f, 0.f},
           mSpeed{100.f},
-          mShooter{new BulletShooter{this, 0.01f, {50.f, 0.f}}}
+          mShooter{new ThreeWayShooter{this, 0.01f, {50.f, 0.f}}}
     {
         SetTeamID(PLAYER_TEAM_ID);
     }

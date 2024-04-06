@@ -7,8 +7,15 @@ namespace ly
     class BulletShooter : public Shooter
     {
     public:
-        BulletShooter(Actor *owner, float cooldownTime = 0.2f, sf::Vector2f localPosOffset = {0.f, 0.f}, float localRotationOffset = 0.f);
+        BulletShooter(
+            Actor *owner,
+            float cooldownTime = 1.0f,
+            sf::Vector2f localPosOffset = {0.f, 0.f},
+            float localRotationOffset = 0.f,
+            const std::string &bulletTexturePath = "SpaceShooterRedux/PNG/Lasers/laserBlue01.png");
         virtual bool IsOnCooldown() const override;
+
+        void SetBulletTexturePath(const std::string &texturePath);
 
     private:
         virtual void ShootImpl() override;
@@ -17,5 +24,7 @@ namespace ly
 
         sf::Vector2f mLocalPosOffset;
         float mLocalRotationOffset;
+
+        std::string mBulletTexturePath;
     };
 }

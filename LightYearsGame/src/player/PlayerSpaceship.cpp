@@ -100,4 +100,9 @@ namespace ly
 
         mShooter->Shoot();
     }
+
+    void PlayerSpaceship::SetShooter(unique<Shooter> &&newShooter)
+    {
+        mShooter = std::move(newShooter);
+    }
 }

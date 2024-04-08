@@ -1,5 +1,8 @@
 #include "player/Reward.h"
 #include "player/PlayerSpaceship.h"
+#include "weapon/ThreeWayShooter.h"
+#include "weapon/FrontalWiper.h"
+#include "framework/World.h"
 
 namespace ly
 {
@@ -34,6 +37,53 @@ namespace ly
         if (playerSpaceship != nullptr && !playerSpaceship->IsPendingDestroy())
         {
             mRewardFunc(playerSpaceship);
+        }
+    }
+
+    weak<Reward> CreateHealthReward(World *world)
+    {
+        return CreateReward(world, "SpaceShooterRedux/PNG/Power-ups/pill_green.png", RewardHealth);
+    }
+
+    weak<Reward> CreateThreewayShooterReward(World *world)
+    {
+        return CreateReward(world, "SpaceShooterRedux/PNG/Power-ups/three_shooter_pickup.png", RewardThreewayShooter);
+    }
+
+    weak<Reward> CreateFrontalWiperReward(World *world)
+    {
+        return CreateReward(world, "SpaceShooterRedux/PNG/Power-ups/front_row_shooter_pickup.png", RewardFrontalWiper);
+    }
+
+    weak<Reward> CreateReward(World *world, const std::string &texturePath, RewardFunc rewardFunc)
+    {
+        weak<Reward> reward = world->SpawnActor<Reward>(texturePath, rewardFunc);
+        return reward;
+    }
+
+    void RewardHealth(PlayerSpaceship *player)
+
+    {
+        static float rewardAmt = 10.f;
+        if (player && !player->IsPendingDestroy())
+        {
+            player->GetHealthComponent().ChangeHealth(rewardAmt);
+        }
+    }
+
+    void RewardThreewayShooter(PlayerSpaceship *player)
+    {
+        if (player && !player->IsPendingDestroy())
+        {
+            player->SetShooter(unique<Shooter>{new ThreeWayShooter{player, 0.4, {50, 0}}});
+        }
+    }
+
+    void RewardFrontalWiper(PlayerSpaceship *player)
+    {
+        if (player && !player->IsPendingDestroy())
+        {
+            player->SetShooter(unique<Shooter>{new FrontalWiper{player, 0.4, {50, 0}}});
         }
     }
 }

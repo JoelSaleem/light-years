@@ -14,6 +14,7 @@ namespace ly
         void SetSpeed(float speed) { mSpeed = speed; };
         float GetSpeed() { return mSpeed; }
         virtual void Shoot() override;
+        void SetShooter(unique<Shooter> &&newShooter);
 
     private:
         void HandleInput();

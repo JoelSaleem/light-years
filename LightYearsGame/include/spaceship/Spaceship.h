@@ -17,6 +17,11 @@ namespace ly
 
         virtual void ApplyDamage(float amt) override;
 
+        HealthComponent &GetHealthComponent()
+        {
+            return mHealthComp;
+        }
+
     private:
         void Blink();
         void UpdateBlink(float deltaTime);

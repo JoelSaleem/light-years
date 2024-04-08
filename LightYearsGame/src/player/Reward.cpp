@@ -32,27 +32,27 @@ namespace ly
     void Reward::OnActorBeginOverlap(Actor *other)
     {
         // Todo: clean up casting
-        PlayerSpaceship *playerSpaceship = static_cast<PlayerSpaceship *>(other);
-
+        PlayerSpaceship *playerSpaceship = dynamic_cast<PlayerSpaceship *>(other);
         if (playerSpaceship != nullptr && !playerSpaceship->IsPendingDestroy())
         {
             mRewardFunc(playerSpaceship);
+            Destroy();
         }
     }
 
-    weak<Reward> CreateHealthReward(World *world)
-    {
-        return CreateReward(world, "SpaceShooterRedux/PNG/Power-ups/pill_green.png", RewardHealth);
-    }
+    weak<Reward> CreateHealthReward(World* world)
+	{
+		return CreateReward(world, "SpaceShooterRedux/PNG/Power-ups/pill_green.png", RewardHealth);
+	}
 
     weak<Reward> CreateThreewayShooterReward(World *world)
     {
-        return CreateReward(world, "SpaceShooterRedux/PNG/Power-ups/three_shooter_pickup.png", RewardThreewayShooter);
+        return CreateReward(world, "SpaceShooterRedux/PNG/Power-ups/bolt_gold.png", RewardThreewayShooter);
     }
 
     weak<Reward> CreateFrontalWiperReward(World *world)
     {
-        return CreateReward(world, "SpaceShooterRedux/PNG/Power-ups/front_row_shooter_pickup.png", RewardFrontalWiper);
+        return CreateReward(world, "SpaceShooterRedux/PNG/Power-ups/bold_silver.png", RewardFrontalWiper);
     }
 
     weak<Reward> CreateReward(World *world, const std::string &texturePath, RewardFunc rewardFunc)
@@ -62,7 +62,6 @@ namespace ly
     }
 
     void RewardHealth(PlayerSpaceship *player)
-
     {
         static float rewardAmt = 10.f;
         if (player && !player->IsPendingDestroy())

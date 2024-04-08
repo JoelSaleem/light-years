@@ -121,12 +121,12 @@ namespace ly
             actorB = reinterpret_cast<Actor *>(contact->GetFixtureB()->GetBody()->GetUserData().pointer);
         }
 
-        if (actorA && !actorA->IsPendingDestroy())
+        if (actorA && actorB && !actorA->IsPendingDestroy())
         {
             actorA->OnActorEndOverlap(actorB);
         }
 
-        if (actorB && !actorB->IsPendingDestroy())
+        if (actorA && actorB && !actorB->IsPendingDestroy())
         {
             actorB->OnActorEndOverlap(actorA);
         }

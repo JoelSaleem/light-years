@@ -9,7 +9,7 @@ namespace ly
 {
     BulletShooter::BulletShooter(
         Actor *owner,
-        float cooldownTime, 
+        float cooldownTime,
         sf::Vector2f localPosOffset,
         float localRotationOffset,
         const std::string &bulletTexturePath)
@@ -29,12 +29,12 @@ namespace ly
 
     bool BulletShooter::IsOnCooldown() const
     {
-        if (mCooldownClock.getElapsedTime().asSeconds() > mCooldownTime)
-        {
-            return false;
-        }
+        return !(mCooldownClock.getElapsedTime().asSeconds() > (mCooldownTime / GetCurrentLevel()));
+    }
 
-        return true;
+    void BulletShooter::IncrementLevel(int amt)
+    {
+        Shooter::IncrementLevel(amt);
     }
 
     void BulletShooter::ShootImpl()

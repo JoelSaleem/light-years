@@ -10,26 +10,42 @@ namespace ly
     ThreeWayShooter::ThreeWayShooter(
         Actor *owner,
         float cooldownTime,
-        sf::Vector2f localPosOffset
-        )
+        sf::Vector2f localPosOffset)
         : Shooter{owner},
           mShooterLeft{owner, cooldownTime, localPosOffset, -30.f},
           mShooterMid{owner, cooldownTime, localPosOffset},
-          mShooterRight{owner, cooldownTime, localPosOffset, 30.f}
+          mShooterRight{owner, cooldownTime, localPosOffset, 30.f},
+          mTopLevelShooterLeft{owner, cooldownTime, localPosOffset + sf::Vector2f{10, 10}, 15.f},
+          mTopLevelShooterRight{owner, cooldownTime, localPosOffset + sf::Vector2f{10, -10}, -15.f}
     {
         mShooterLeft.SetBulletTexturePath("SpaceShooterRedux/PNG/Lasers/laserRed01.png");
         mShooterRight.SetBulletTexturePath("SpaceShooterRedux/PNG/Lasers/laserRed01.png");
         mShooterMid.SetBulletTexturePath("SpaceShooterRedux/PNG/Lasers/laserRed01.png");
+
+        mTopLevelShooterLeft.SetBulletTexturePath("SpaceShooterRedux/PNG/Lasers/laserRed01.png");
+        mTopLevelShooterRight.SetBulletTexturePath("SpaceShooterRedux/PNG/Lasers/laserRed01.png");
     }
 
     bool ThreeWayShooter::IsOnCooldown() const
-    { 
+    {
         // if (mCooldownClock.getElapsedTime().asSeconds() > mCooldownTime)
         // {
         //     return false;
         // }
 
         // return true;
+        return Shooter::IsOnCooldown();
+    }
+
+    void ThreeWayShooter::IncrementLevel(int amt)
+    {
+        Shooter::IncrementLevel(amt);
+        mShooterLeft.IncrementLevel(amt);
+        mShooterMid.IncrementLevel(amt);
+        mShooterRight.IncrementLevel(amt);
+
+        mTopLevelShooterLeft.IncrementLevel(amt);
+        mTopLevelShooterRight.IncrementLevel(amt);
     }
 
     void ThreeWayShooter::ShootImpl()
@@ -37,12 +53,11 @@ namespace ly
         mShooterLeft.Shoot();
         mShooterRight.Shoot();
         mShooterMid.Shoot();
-        // sf::Vector2f ownerForwardDir = GetOwner()->GetActorForwardDirection();
-        // sf::Vector2f ownerRightDir = GetOwner()->GetActorRightDirection();
 
-        // mCooldownClock.restart();
-        // weak<Bullet> newBullet = GetOwner()->GetWorld()->SpawnActor<Bullet>(GetOwner(), "SpaceShooterRedux/PNG/Lasers/laserBlue01.png");
-        // newBullet.lock()->SetActorLocation(GetOwner()->GetActorLocation() + ownerForwardDir * mLocalPosOffset.x + ownerRightDir * mLocalPosOffset.y);
-        // newBullet.lock()->SetActorRotation(GetOwner()->GetActorRotation() + mLocalRotationOffset);
+        if (GetCurrentLevel() == GetMaxLevel())
+        {
+            mTopLevelShooterLeft.Shoot();
+            mTopLevelShooterRight.Shoot();
+        }
     }
 }

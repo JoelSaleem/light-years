@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include "framework/Core.h"
 #include "framework/Object.h"
+#include "framework/Delegate.h"
 
 const uint8 NEUTRAL_TEAM_ID = 255;
 
@@ -66,6 +67,8 @@ namespace ly
 
         sf::Sprite &GetSprite() { return mSprite; }
         const sf::Sprite &GetSprite() const { return mSprite; }
+
+        Delegate<Actor*> onActorDestroyed;
 
     private:
         void InitializePhysics();

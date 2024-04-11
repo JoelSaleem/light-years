@@ -8,15 +8,15 @@
 #include "gameplay/WaitStage.h"
 #include "Enemy/HexagonStage.h"
 #include "Enemy/UFOStage.h"
+#include "player/PlayerManager.h"
 
 namespace ly
 {
     GameLevelOne::GameLevelOne(Application *owningApp)
         : World{owningApp}
     {
-        testPlayerSpaceship = SpawnActor<PlayerSpaceship>();
-        testPlayerSpaceship.lock().get()->SetActorLocation(sf::Vector2f{300, 490});
-        testPlayerSpaceship.lock().get()->SetActorRotation(-90.f);
+        Player newPlayer = PlayerManager::Get().CreateNewPlayer();
+        newPlayer.SpawnSpaceship(this);
     }
 
     void GameLevelOne::BeginPlay()

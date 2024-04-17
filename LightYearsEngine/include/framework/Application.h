@@ -15,8 +15,11 @@ namespace ly
         weak<WorldType> LoadWorld();
 
         sf::Vector2u GetWindowSize() const;
+        sf::RenderWindow &GetWindow() { return mWindow; }
+        const sf::RenderWindow &GetWindow() const { return mWindow; }
 
     private:
+        bool DispatchEvent(const sf::Event &event);
         void TickInternal(float deltaTime);
         void RenderInternal();
 

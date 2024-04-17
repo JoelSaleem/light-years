@@ -33,6 +33,10 @@ namespace ly
                 {
                     mWindow.close();
                 }
+                else
+                {
+                    DispatchEvent(windowEvent);
+                }
             }
 
             float deltaTime = mTickClock.restart().asSeconds();
@@ -78,7 +82,6 @@ namespace ly
 
         PhysicsSystem::Get().Step(deltaTime);
 
-
         if (mCleanCycleClock.getElapsedTime().asSeconds() >= mCleanCycleInterval)
         {
             mCleanCycleClock.restart();
@@ -103,5 +106,15 @@ namespace ly
     sf::Vector2u Application::GetWindowSize() const
     {
         return mWindow.getSize();
+    }
+
+    bool Application::DispatchEvent(const sf::Event &event)
+    {
+        if (currentWorld)
+        {
+            return currentWorld->DispatchEvent(event);
+        }
+
+        return false;
     }
 }

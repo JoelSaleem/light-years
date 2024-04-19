@@ -48,7 +48,7 @@ namespace ly
 
         return shared<T>{nullptr};
     }
-    
+
     template <typename T>
     inline void AssetManager::CleanUniqueRef(Dictionary<std::string, shared<T>> &container)
     {

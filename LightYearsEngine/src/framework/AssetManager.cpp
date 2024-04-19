@@ -1,4 +1,5 @@
 #include "framework/AssetManager.h"
+#include <iostream>
 
 namespace ly
 {
@@ -14,7 +15,8 @@ namespace ly
         return *assetManager;
     }
 
-    AssetManager::AssetManager() : mLoadedTextureMap{}, mRootDir{""}
+    AssetManager::AssetManager()
+        : mLoadedFontMap{}, mLoadedTextureMap{}, mRootDir{}
     {
     }
 

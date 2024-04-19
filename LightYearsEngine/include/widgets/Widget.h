@@ -13,14 +13,8 @@ namespace ly
         void SetWidgetLocation(const sf::Vector2f &newLocation);
         void SetWidgetRotation(float newRotation);
 
-        sf::Vector2f GetWidgetLocation() const
-        {
-            return mWidgetTransform.getPosition();
-        }
-        float GetWidgetRotation() const
-        {
-            return mWidgetTransform.getRotation();
-        }
+        sf::Vector2f GetWidgetLocation() const { return mWidgetTransform.getPosition(); }
+        float GetWidgetRotation() const { return mWidgetTransform.getRotation(); }
 
         void SetVisibility(bool newVisability);
         bool GetVisability() const { return mIsVisible; }

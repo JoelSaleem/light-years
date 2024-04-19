@@ -1,5 +1,6 @@
 #include "widgets/TextWidget.h"
 #include "framework/AssetManager.h"
+#include <iostream>
 
 namespace ly
 {
@@ -10,7 +11,15 @@ namespace ly
         : mFont{AssetManager::Get().LoadFont(fontPath)},
           mText{textStr, *(mFont.get()), charSize}
     {
+        mText.setPosition({100, 100});
+        mText.setColor(sf::Color::Blue);
+        mText.setFillColor(sf::Color::Blue);
+        auto x = mText.getPosition();
+
+        std::cout << x.x << " " << x.y << std::endl;
+        std::cout << mText.getString().toAnsiString() << std::endl;
     }
+
     void TextWidget::SetString(const std::string &newStr)
     {
         mText.setString(newStr);
